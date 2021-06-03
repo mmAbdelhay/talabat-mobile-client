@@ -1,0 +1,12 @@
+{
+  "name": "talabat-mobile-client",
+  "displayName": "talabat-mobile-client",
+  "expo": {
+    "name": "talabat-mobile-client",
+    "slug": "talabat-mobile-client",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
