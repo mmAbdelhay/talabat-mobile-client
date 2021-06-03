@@ -1,21 +1,40 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState, useEffect } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import DrawerContent from "./navigation/DrawerContent";
+import ButtomTab from "./navigation/ButtomTab";
+import { getData } from "./services/AsyncStorage";
+import SingInStackScreen from "./views/Login/SignInStackScreen";
+import SingUpStackScreen from "./views/Singup/SignUpStackScreen";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+const Drawer = createDrawerNavigator();
+
+export default function App({ navigation }) {
+  const [token, setToken] = useState("");
+
+  useState(async () => {
+    const tokenFromService = await getData("token");
+    if (tokenFromService.length > 0) setToken(tokenFromService);
+  }, []);
+
+  if (token.length > 0) {
+    return (
+      <NavigationContainer>
+        <Drawer.Navigator
+          drawerContent={(props) => <DrawerContent {...props} />}
+        >
+          <Drawer.Screen name="Home" component={ButtomTab} />
+        </Drawer.Navigator>
+      </NavigationContainer>
+    );
+  } else {
+    return (
+      <NavigationContainer>
+        <Drawer.Navigator>
+          <Drawer.Screen name="Login" component={SingInStackScreen} />
+          <Drawer.Screen name="Register" component={SingUpStackScreen} />
+        </Drawer.Navigator>
+      </NavigationContainer>
+    );
+  }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
