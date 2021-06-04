@@ -4,8 +4,9 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import DrawerContent from "./navigation/DrawerContent";
 import ButtomTab from "./navigation/ButtomTab";
 import { getData } from "./services/AsyncStorage";
-import SingInStackScreen from "./views/Login/SignInStackScreen";
-import SingUpStackScreen from "./views/Singup/SignUpStackScreen";
+import SingInScreen from "./views/Login/SignInScreen";
+import SingUpScreen from "./views/Singup/SignUpScreen";
+import SplashScreen from "./views/Splash/SplashScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -31,8 +32,9 @@ export default function App({ navigation }) {
     return (
       <NavigationContainer>
         <Drawer.Navigator>
-          <Drawer.Screen name="Login" component={SingInStackScreen} />
-          <Drawer.Screen name="Register" component={SingUpStackScreen} />
+          <Drawer.Screen name="Splash" component={SplashScreen} />
+          <Drawer.Screen name="Login" component={SingInScreen} />
+          <Drawer.Screen name="Register" component={SingUpScreen} />
         </Drawer.Navigator>
       </NavigationContainer>
     );

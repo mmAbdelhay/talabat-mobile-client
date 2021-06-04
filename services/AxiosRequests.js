@@ -26,6 +26,16 @@ export const login = async (payload) => {
   }
 };
 
+export const signUp = async (url, payload) => {
+  if (!token) return false;
+  try {
+    const response = await axios.post(`${ServerIP}${url}`, { payload });
+    return response ? response.data : false;
+  } catch (err) {
+    console.error(`axios request signup ${err}`);
+  }
+};
+
 export const axiosGet = async (url) => {
   if (!token) return false;
   try {

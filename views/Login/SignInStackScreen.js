@@ -10,7 +10,7 @@ export default function SingInStackScreen({ navigation }) {
     <SingInStack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: "#007cff",
+          backgroundColor: "#005eff",
         },
         headerTintColor: "#fff",
         headerTintStyle: {
@@ -26,7 +26,7 @@ export default function SingInStackScreen({ navigation }) {
             <Icon.Button
               name="ios-menu"
               size={25}
-              backgroundColor="#007cff"
+              backgroundColor="#005eff"
               onPress={() => navigation.openDrawer()}
             ></Icon.Button>
           ),
