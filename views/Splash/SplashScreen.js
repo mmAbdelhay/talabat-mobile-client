@@ -14,7 +14,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 const SplashScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor="#009387" barStyle="light-content" />
+      <StatusBar backgroundColor="#007cff" barStyle="light-content" />
       <View style={styles.header}>
         <Animatable.Image
           animation="bounceIn"
@@ -25,8 +25,8 @@ const SplashScreen = ({ navigation }) => {
         />
       </View>
       <Animatable.View style={[styles.footer]} animation="fadeInUpBig">
-        <Text style={[styles.title]}>Stay connected with everyone!</Text>
-        <Text style={styles.text}>Sign in with account</Text>
+        <Text style={[styles.title]}>Talabat</Text>
+        <Text style={styles.text}>Your dreams is our orders</Text>
         <View style={styles.button}>
           <TouchableOpacity
             style={styles.signIn}

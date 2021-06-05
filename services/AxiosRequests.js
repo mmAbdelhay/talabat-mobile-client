@@ -9,6 +9,7 @@ const getToken = () => {
 };
 
 export const login = async (payload) => {
+  console.log(`payload`, payload);
   try {
     const response = await axios.post(
       `${ServerIP}/api/v1/client/authenticate/login`,
@@ -16,7 +17,8 @@ export const login = async (payload) => {
     );
     if (response.status == 200) {
       storeData("token", response.data.token);
-      return response;
+      storeData("loginPayload", JSON.stringify(payload));
+      return true;
     } else {
       return false;
     }

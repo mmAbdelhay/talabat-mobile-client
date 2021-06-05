@@ -15,7 +15,7 @@ import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { AntDesign } from "@expo/vector-icons";
 import { SignOut } from "../services/SignOut";
-import RNRestart from "react-native-restart";
+import { Restart } from "fiction-expo-restart";
 // import { AuthContext } from "../services/context";
 
 export default function DrawerContent(props) {
@@ -108,8 +108,8 @@ export default function DrawerContent(props) {
             <Icon name="exit-to-app" color={color} size={size} />
           )}
           label="Sign Out"
-          onPress={() => {
-            if (SignOut()) RNRestart.Restart();
+          onPress={async () => {
+            if (await SignOut()) Restart();
           }}
         />
       </Drawer.Section>

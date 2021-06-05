@@ -13,11 +13,11 @@ import * as Animatable from "react-native-animatable";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
 import { login } from "../../services/AxiosRequests";
-import RNRestart from "react-native-restart";
+import { Restart } from "fiction-expo-restart";
 
 const SignInScreen = ({ navigation }) => {
   const [data, setData] = useState({
-    username: "",
+    email: "",
     password: "",
     check_textInputChange: false,
     secureTextEntry: true,
@@ -26,7 +26,7 @@ const SignInScreen = ({ navigation }) => {
   });
 
   const onlogin = async () => {
-    if (email.length > 0 || password.length > 0) {
+    if (data.email.length > 0 || data.password.length > 0) {
       const payload = {
         email: data.email,
         password: data.password,
@@ -39,7 +39,7 @@ const SignInScreen = ({ navigation }) => {
           },
           {
             text: "ok",
-            onPress: () => RNRestart.Restart(),
+            onPress: () => Restart(),
           },
         ]);
       } else {
@@ -52,14 +52,14 @@ const SignInScreen = ({ navigation }) => {
     if (val.trim().length >= 4) {
       setData({
         ...data,
-        username: val,
+        email: val,
         check_textInputChange: true,
         isValidUser: true,
       });
     } else {
       setData({
         ...data,
-        username: val,
+        email: val,
         check_textInputChange: false,
         isValidUser: false,
       });
@@ -67,7 +67,7 @@ const SignInScreen = ({ navigation }) => {
   };
 
   const handlePasswordChange = (val) => {
-    if (val.trim().length >= 8) {
+    if (val.trim().length >= 6) {
       setData({
         ...data,
         password: val,
@@ -90,7 +90,11 @@ const SignInScreen = ({ navigation }) => {
   };
 
   const handleValidUser = (val) => {
-    if (val.trim().length >= 4) {
+    if (
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
+        val
+      )
+    ) {
       setData({
         ...data,
         isValidUser: true,
@@ -105,7 +109,7 @@ const SignInScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor="#009387" barStyle="light-content" />
+      <StatusBar backgroundColor="#007cff" barStyle="light-content" />
       <View style={styles.header}>
         <Text style={styles.text_header}>Login</Text>
       </View>
@@ -129,9 +133,7 @@ const SignInScreen = ({ navigation }) => {
         </View>
         {data.isValidUser ? null : (
           <Animatable.View animation="fadeInLeft" duration={500}>
-            <Text style={styles.errorMsg}>
-              Username must be 4 characters long.
-            </Text>
+            <Text style={styles.errorMsg}>should be valid email address</Text>
           </Animatable.View>
         )}
 
@@ -157,7 +159,7 @@ const SignInScreen = ({ navigation }) => {
         {data.isValidPassword ? null : (
           <Animatable.View animation="fadeInLeft" duration={500}>
             <Text style={styles.errorMsg}>
-              Password must be 8 characters long.
+              Password must be 6 characters long.
             </Text>
           </Animatable.View>
         )}
