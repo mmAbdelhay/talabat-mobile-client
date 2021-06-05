@@ -6,6 +6,10 @@ import android.net.Uri;
 
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import com.reactcommunity.rndatetimepicker.RNDateTimePickerPackage;
+import com.reactcommunity.rndatetimepicker.RNDateTimePickerPackage;
+import com.reactcommunity.rndatetimepicker.RNDateTimePickerPackage;
+import com.reactcommunity.rndatetimepicker.RNDateTimePickerPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.facebook.react.ReactInstanceManager;

@@ -9,7 +9,6 @@ const getToken = () => {
 };
 
 export const login = async (payload) => {
-  console.log(`payload`, payload);
   try {
     const response = await axios.post(
       `${ServerIP}/api/v1/client/authenticate/login`,
@@ -28,13 +27,21 @@ export const login = async (payload) => {
   }
 };
 
-export const signUp = async (url, payload) => {
-  if (!token) return false;
+export const signUp = async (payload) => {
   try {
-    const response = await axios.post(`${ServerIP}${url}`, { payload });
-    return response ? response.data : false;
+    const response = await axios.post(
+      `${ServerIP}/api/v1/client/authenticate/register`,
+      payload
+    );
+    console.log(response);
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      return false;
+    }
   } catch (err) {
     console.error(`axios request signup ${err}`);
+    return false;
   }
 };
 
