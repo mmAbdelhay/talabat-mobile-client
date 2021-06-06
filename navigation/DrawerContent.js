@@ -74,7 +74,7 @@ export default function DrawerContent(props) {
               )}
               label="Edit account"
               onPress={() => {
-                // props.navigation.navigate("Profile");
+                props.navigation.navigate("Account");
               }}
             />
           </Drawer.Section>

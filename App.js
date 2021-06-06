@@ -9,6 +9,7 @@ import SplashScreen from "./views/Splash/SplashScreen";
 import { getTokenWithSavedPayload } from "./services/getTokenWithSavedPayload";
 import { axiosGet } from "./services/AxiosRequests";
 import ContactUsStackScreen from "./views/ContactUs/ContactUsStackScreen";
+import AccountStackScreen from "./views/Acoount/AccountStackScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -40,6 +41,7 @@ export default function App({ navigation }) {
         >
           <Drawer.Screen name="Home" component={ButtomTab} />
           <Drawer.Screen name="ContactUs" component={ContactUsStackScreen} />
+          <Drawer.Screen name="Account" component={AccountStackScreen} />
         </Drawer.Navigator>
       </NavigationContainer>
     );
