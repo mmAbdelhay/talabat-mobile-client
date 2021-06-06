@@ -7,11 +7,14 @@ import SingInScreen from "./views/Login/SignInScreen";
 import SingUpScreen from "./views/Singup/SignUpScreen";
 import SplashScreen from "./views/Splash/SplashScreen";
 import { getTokenWithSavedPayload } from "./services/getTokenWithSavedPayload";
+import { axiosGet } from "./services/AxiosRequests";
+import ContactUsStackScreen from "./views/ContactUs/ContactUsStackScreen";
 
 const Drawer = createDrawerNavigator();
 
 export default function App({ navigation }) {
   const [token, setToken] = useState("");
+  const [client, setClient] = useState();
 
   useEffect(() => {
     async function checkToken() {
@@ -19,15 +22,24 @@ export default function App({ navigation }) {
       if (getToken?.length > 0) setToken(getToken);
     }
     checkToken();
+    clientInfo();
   }, []);
+
+  const clientInfo = async () => {
+    let client = await axiosGet("/api/v1/client/info");
+    if (client) setClient(client?.client);
+  };
 
   if (token.length > 0) {
     return (
       <NavigationContainer>
         <Drawer.Navigator
-          drawerContent={(props) => <DrawerContent {...props} />}
+          drawerContent={(props) => (
+            <DrawerContent client={client} {...props} />
+          )}
         >
           <Drawer.Screen name="Home" component={ButtomTab} />
+          <Drawer.Screen name="ContactUs" component={ContactUsStackScreen} />
         </Drawer.Navigator>
       </NavigationContainer>
     );

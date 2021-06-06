@@ -3,8 +3,8 @@ import { ServerIP } from "../assets/config";
 import { getData } from "./AsyncStorage";
 import { storeData } from "./AsyncStorage";
 
-const getToken = () => {
-  const token = getData("token");
+const getToken = async () => {
+  const token = await getData("token");
   return token ? token : null;
 };
 
@@ -33,7 +33,6 @@ export const signUp = async (payload) => {
       `${ServerIP}/api/v1/client/authenticate/register`,
       payload
     );
-    console.log(response);
     if (response.status === 200) {
       return response.data;
     } else {
@@ -45,28 +44,40 @@ export const signUp = async (payload) => {
   }
 };
 
+export const contactus = async (payload) => {
+  try {
+    const response = await axios.post(
+      `${ServerIP}/api/v1/forms/contactus`,
+      payload
+    );
+    return response ? response.data : false;
+  } catch (err) {
+    console.error(`axios request contact ${err}`);
+  }
+};
+
 export const axiosGet = async (url) => {
-  if (!token) return false;
+  if (!(await getToken())) return false;
+
   try {
     const response = await axios.get(`${ServerIP}${url}`, {
       headers: {
-        Authorization: "Token " + getToken(),
+        Authorization: "Token " + (await getToken()),
       },
     });
     return response ? response.data : false;
   } catch (err) {
     console.error(`axios request axiosGet ${err}`);
+    return false;
   }
 };
 
 export const axiosPost = async (url, payload) => {
-  if (!token) return false;
+  if (!(await getToken())) return false;
   try {
-    const response = await axios.post(
-      `${ServerIP}${url}`,
-      { payload },
-      { headers: { Authorization: "Token " + getToken() } }
-    );
+    const response = await axios.post(`${ServerIP}${url}`, payload, {
+      headers: { Authorization: "Token " + (await getToken()) },
+    });
     return response ? response.data : false;
   } catch (err) {
     console.error(`axios request axiosPost ${err}`);
@@ -74,13 +85,11 @@ export const axiosPost = async (url, payload) => {
 };
 
 export const axiosPut = async (url, payload) => {
-  if (!token) return false;
+  if (!(await getToken())) return false;
   try {
-    const response = await axios.post(
-      `${ServerIP}${url}`,
-      { payload },
-      { headers: { Authorization: "Token " + getToken() } }
-    );
+    const response = await axios.post(`${ServerIP}${url}`, payload, {
+      headers: { Authorization: "Token " + (await getToken()) },
+    });
     return response ? response.data : false;
   } catch (err) {
     console.error(`axios request axiosPut ${err}`);
@@ -88,10 +97,10 @@ export const axiosPut = async (url, payload) => {
 };
 
 export const axiosDelete = async (url) => {
-  if (!token) return false;
+  if (!(await getToken())) return false;
   try {
     const response = await axios.post(`${ServerIP}${url}`, {
-      headers: { Authorization: "Token " + getToken() },
+      headers: { Authorization: "Token " + (await getToken()) },
     });
     return response ? response.data : false;
   } catch (err) {

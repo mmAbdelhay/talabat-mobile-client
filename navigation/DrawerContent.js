@@ -1,44 +1,63 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
-import {
-  useTheme,
-  Avatar,
-  Title,
-  Caption,
-  Paragraph,
-  Drawer,
-  Text,
-  TouchableRipple,
-  Switch,
-} from "react-native-paper";
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet, Image, Text } from "react-native";
+import { Title, Caption, Drawer } from "react-native-paper";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { AntDesign } from "@expo/vector-icons";
 import { SignOut } from "../services/SignOut";
 import { Restart } from "fiction-expo-restart";
-// import { AuthContext } from "../services/context";
 
 export default function DrawerContent(props) {
-  const paperTheme = useTheme();
+  const [client, setClient] = useState();
 
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView {...props}>
         <View style={styles.drawerContent}>
-          <View style={styles.userInfoSection}>
-            <View style={{ flexDirection: "row", marginTop: 15 }}>
-              <Avatar.Image
-                source={{
-                  uri: "https://api.adorable.io/avatars/50/abott@adorable.png",
+          <Drawer.Section>
+            <View style={styles.userInfoSection}>
+              <View
+                style={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  right: 20,
                 }}
-                size={50}
-              />
-              <View style={{ marginLeft: 15, flexDirection: "column" }}>
-                <Title style={styles.title}>John Doe</Title>
-                <Caption style={styles.caption}>@j_doe</Caption>
+              >
+                <Image
+                  source={require("../assets/icons/login.png")}
+                  style={{
+                    width: 100,
+                    height: 100,
+                    tintColor: "#777777",
+                  }}
+                />
+                <View
+                  style={{
+                    margin: 10,
+                    flexDirection: "column",
+                  }}
+                >
+                  <Title style={styles.title}>
+                    Name : {props?.client?.name}
+                  </Title>
+                  <Text style={{ color: "#777777" }}>
+                    Email : {props?.client?.email}
+                  </Text>
+                  <Text style={{ color: "#777777" }}>
+                    Mobile : {props?.client?.mobile}
+                  </Text>
+                  <Text style={{ color: "#777777" }}>
+                    Date of birth : {props?.client?.date_of_birth}
+                  </Text>
+                  <Text style={{ color: "#777777" }}>
+                    Country : {props?.client?.country}
+                  </Text>
+                  <Text style={{ color: "#777777" }}>
+                    Gender : {props?.client?.gender}
+                  </Text>
+                </View>
               </View>
             </View>
-          </View>
+          </Drawer.Section>
           <Drawer.Section style={styles.drawerSection}>
             <DrawerItem
               icon={({ color, size }) => (
@@ -46,59 +65,29 @@ export default function DrawerContent(props) {
               )}
               label="Home"
               onPress={() => {
-                // props.navigation.navigate("Home");
+                props.navigation.navigate("Home");
               }}
             />
             <DrawerItem
               icon={({ color, size }) => (
                 <Icon name="account-outline" color={color} size={size} />
               )}
-              label="Profile"
+              label="Edit account"
               onPress={() => {
                 // props.navigation.navigate("Profile");
               }}
             />
-            <DrawerItem
-              icon={({ color, size }) => (
-                <Icon name="bookmark-outline" color={color} size={size} />
-              )}
-              label="Bookmarks"
-              onPress={() => {
-                // props.navigation.navigate("BookmarkScreen");
-              }}
-            />
-            <DrawerItem
-              icon={({ color, size }) => (
-                <AntDesign name="setting" size={size} color={color} />
-              )}
-              label="Settings"
-              onPress={() => {
-                // props.navigation.navigate("SettingsScreen");
-              }}
-            />
+          </Drawer.Section>
+          <Drawer.Section title="Preferences">
             <DrawerItem
               icon={({ color, size }) => (
                 <Icon name="account-check-outline" color={color} size={size} />
               )}
-              label="Support"
+              label="Contact us"
               onPress={() => {
-                // props.navigation.navigate("SupportScreen");
+                props.navigation.navigate("ContactUs");
               }}
             />
-          </Drawer.Section>
-          <Drawer.Section title="Preferences">
-            <TouchableRipple
-              onPress={() => {
-                // toggleTheme();
-              }}
-            >
-              <View style={styles.preference}>
-                <Text>Dark Theme</Text>
-                <View pointerEvents="none">
-                  <Switch value={paperTheme.dark} />
-                </View>
-              </View>
-            </TouchableRipple>
           </Drawer.Section>
         </View>
       </DrawerContentScrollView>
@@ -128,9 +117,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 3,
     fontWeight: "bold",
+    color: "#777777",
   },
   caption: {
-    fontSize: 14,
+    fontSize: 12,
     lineHeight: 14,
   },
   row: {
