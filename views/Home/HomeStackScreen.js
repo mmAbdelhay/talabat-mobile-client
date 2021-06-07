@@ -1,4 +1,5 @@
 import React from "react";
+import { View, Text } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "./HomeScreen";
@@ -28,6 +29,14 @@ export default function HomeStackScreen({ navigation }) {
               size={25}
               backgroundColor="#007cff"
               onPress={() => navigation.openDrawer()}
+            ></Icon.Button>
+          ),
+          headerRight: () => (
+            <Icon.Button
+              name="ios-search"
+              size={25}
+              backgroundColor="#007cff"
+              onPress={() => console.log(`search icon pressed`)}
             ></Icon.Button>
           ),
         }}
