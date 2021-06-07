@@ -10,10 +10,11 @@ import { getTokenWithSavedPayload } from "./services/getTokenWithSavedPayload";
 import { axiosGet } from "./services/AxiosRequests";
 import ContactUsStackScreen from "./views/ContactUs/ContactUsStackScreen";
 import AccountStackScreen from "./views/Acoount/AccountStackScreen";
+import ProviderProfileStackScreen from "./views/ProviderProfile/ProviderProfileStackScreen";
 
 const Drawer = createDrawerNavigator();
 
-export default function App({ navigation }) {
+export default function App({ route, navigation }) {
   const [token, setToken] = useState("");
   const [client, setClient] = useState();
 
@@ -42,13 +43,17 @@ export default function App({ navigation }) {
           <Drawer.Screen name="Home" component={ButtomTab} />
           <Drawer.Screen name="ContactUs" component={ContactUsStackScreen} />
           <Drawer.Screen name="Account" component={AccountStackScreen} />
+          <Drawer.Screen
+            name="ProviderProfile"
+            component={ProviderProfileStackScreen}
+          />
         </Drawer.Navigator>
       </NavigationContainer>
     );
   } else {
     return (
       <NavigationContainer>
-        <Drawer.Navigator>
+        <Drawer.Navigator initialRouteName="Splash">
           <Drawer.Screen name="Splash" component={SplashScreen} />
           <Drawer.Screen name="Login" component={SingInScreen} />
           <Drawer.Screen name="Register" component={SingUpScreen} />
