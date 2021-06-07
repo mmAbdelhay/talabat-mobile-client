@@ -25,7 +25,6 @@ export default function ContactUs({ navigation }) {
       mobile: mobile,
       message: msg,
     };
-    console.log(payload);
     if (name && email && mobile && msg) {
       let response = await contactus(payload);
       if (response) {
