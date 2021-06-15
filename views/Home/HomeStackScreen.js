@@ -31,14 +31,6 @@ export default function HomeStackScreen({ navigation }) {
               onPress={() => navigation.openDrawer()}
             ></Icon.Button>
           ),
-          headerRight: () => (
-            <Icon.Button
-              name="ios-search"
-              size={25}
-              backgroundColor="#007cff"
-              onPress={() => console.log(`search icon pressed`)}
-            ></Icon.Button>
-          ),
         }}
       />
     </HomeStack.Navigator>

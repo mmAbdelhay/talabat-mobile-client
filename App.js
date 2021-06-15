@@ -10,7 +10,7 @@ import { getTokenWithSavedPayload } from "./services/getTokenWithSavedPayload";
 import { axiosGet } from "./services/AxiosRequests";
 import ContactUsStackScreen from "./views/ContactUs/ContactUsStackScreen";
 import AccountStackScreen from "./views/Acoount/AccountStackScreen";
-import ProviderProfileStackScreen from "./views/ProviderProfile/ProviderProfileStackScreen";
+import ProviderProfile from "./views/ProviderProfile/ProviderProfile";
 
 const Drawer = createDrawerNavigator();
 
@@ -43,10 +43,7 @@ export default function App({ route, navigation }) {
           <Drawer.Screen name="Home" component={ButtomTab} />
           <Drawer.Screen name="ContactUs" component={ContactUsStackScreen} />
           <Drawer.Screen name="Account" component={AccountStackScreen} />
-          <Drawer.Screen
-            name="ProviderProfile"
-            component={ProviderProfileStackScreen}
-          />
+          <Drawer.Screen name="ProviderProfile" component={ProviderProfile} />
         </Drawer.Navigator>
       </NavigationContainer>
     );

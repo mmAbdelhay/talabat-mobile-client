@@ -14,12 +14,15 @@ import Loading from "../Loading/Loading";
 import axios from "axios";
 import { ServerIP } from "../../assets/config";
 import { Card } from "react-native-elements";
+import { SearchBar } from "react-native-elements";
 
 const HomeScreen = ({ navigation }) => {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [loading, setLoading] = useState(true);
   const [providers, setProviders] = useState([]);
+  const [providerSearched, setProviderSearched] = useState();
+  const [search, setSearch] = useState("");
 
   const getNearProviders = async () => {
     let payload = {
@@ -30,7 +33,10 @@ const HomeScreen = ({ navigation }) => {
       `${ServerIP}/api/v1/guest/lookup/nearproviders`,
       payload
     );
-    if (response.status === 200) setProviders(response.data.Message);
+    if (response.status === 200) {
+      setProviders(response?.data?.Message);
+      setProviderSearched(response?.data?.Message);
+    }
   };
 
   useEffect(() => {
@@ -52,6 +58,19 @@ const HomeScreen = ({ navigation }) => {
     }
   }, [location]);
 
+  const updateSearch = (text) => {
+    setSearch(text);
+    if (search.length > 0) {
+      setProviderSearched(
+        providerSearched?.filter((i) => {
+          if (i.name.toLowerCase().includes(text.toLowerCase())) return i;
+        })
+      );
+    } else {
+      setProviderSearched(providers);
+    }
+  };
+
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
@@ -60,34 +79,67 @@ const HomeScreen = ({ navigation }) => {
     );
   } else {
     return (
-      <ScrollView style={{ marginBottom: "22%" }}>
-        {providers &&
-          providers.map((item, index) => {
-            return (
-              <Card key={index}>
-                <TouchableOpacity
-                  onPress={() =>
-                    navigation.navigate("ProviderProfile", {
-                      id: item.id,
-                    })
-                  }
+      <>
+        <View style={{ height: 10 }}>
+          <SearchBar
+            lightTheme={true}
+            round={true}
+            placeholder="Search for specific provider name"
+            value={search}
+            onChangeText={(text) => updateSearch(text)}
+          />
+        </View>
+        <ScrollView style={{ top: "5%", marginBottom: "30%" }}>
+          {providers &&
+            providerSearched?.map((item, index) => {
+              return (
+                <Card
+                  key={index}
+                  style={{ justifyContent: "center", alignItems: "center" }}
                 >
-                  <Image
-                    source={{ uri: `${ServerIP}${item.logo}` }}
-                    style={{ width: 40, height: 40, borderRadius: 5 }}
-                  />
-                  <Text style={{ fontWeight: "bold" }}>Name : {item.name}</Text>
-                  <Text>provider_type : {item.provider_type}</Text>
-                  <Text>delivery_fee : {item.delivery_fee}</Text>
-                  <Text>minimum_order : {item.minimum_order}</Text>
-                  <Text>opening_hour : {item.opening_hour}</Text>
-                  <Text>closing_hour : {item.closing_hour}</Text>
-                  <Text>delivery_time : {item.delivery_time}</Text>
-                </TouchableOpacity>
-              </Card>
-            );
-          })}
-      </ScrollView>
+                  <Text
+                    style={{
+                      fontWeight: "bold",
+                      textAlign: "center",
+                      fontSize: 20,
+                      marginBottom: 10,
+                    }}
+                  >
+                    {item.name}
+                  </Text>
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate("ProviderProfile", {
+                        params: {
+                          id: item.id,
+                        },
+                      })
+                    }
+                    style={{ flexDirection: "row" }}
+                  >
+                    <Image
+                      source={{ uri: `${ServerIP}${item.logo}` }}
+                      style={{
+                        width: 100,
+                        height: 100,
+                        borderRadius: 5,
+                        marginLeft: "2%",
+                      }}
+                    />
+                    <View style={{ marginLeft: "10%", paddingTop: "1%" }}>
+                      <Text>provider_type : {item.provider_type}</Text>
+                      <Text>delivery_fee : {item.delivery_fee}</Text>
+                      <Text>minimum_order : {item.minimum_order}</Text>
+                      <Text>opening_hour : {item.opening_hour}</Text>
+                      <Text>closing_hour : {item.closing_hour}</Text>
+                      <Text>delivery_time : {item.delivery_time}</Text>
+                    </View>
+                  </TouchableOpacity>
+                </Card>
+              );
+            })}
+        </ScrollView>
+      </>
     );
   }
 };
