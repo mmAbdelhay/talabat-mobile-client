@@ -1,5 +1,6 @@
 import jwt_decode from "jwt-decode";
-import { getData } from "./AsyncStorage";
+import { getData, removeData } from "./AsyncStorage";
+import { login } from "./AxiosRequests";
 
 export const getTokenWithSavedPayload = async () => {
   const tokenFromService = await getData("token");
