@@ -9,9 +9,18 @@ export const cartSlice = createSlice({
    reducers: {
       addToCart: (state, item) => {
          console.log("REDUX", item.payload);
-         state.cart.push(item.payload);
+
+         let index = state.cart.findIndex((cartItem) => cartItem.id === item.payload.id);
+         index === -1
+            ? state.cart.push(item.payload)
+            : (state.cart[index].quantity = +state.cart[index].quantity + 1);
       },
-      removeFomCart: (state) => {},
+      removeFomCart: (state, item) => {
+         let index = state.cart.findIndex((cartItem) => cartItem.id === item.payload.id);
+         if (index > -1) {
+            state.cart.splice(index, 1);
+         }
+      },
       defineProviderID: (state, providerId) => {
          if (state.providerID !== providerId.payload) {
             state.providerID = providerId.payload;

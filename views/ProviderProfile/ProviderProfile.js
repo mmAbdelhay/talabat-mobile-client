@@ -23,8 +23,10 @@ import {
    AccordionList,
 } from "accordion-collapse-react-native";
 import OptionsModal from "./options_modal";
-
+import { useSelector, useDispatch } from "react-redux";
+import { addToCart, defineProviderID } from "../../services/cartSlice";
 export default function ProviderProfile({ navigation, route }) {
+   const dispatch = useDispatch();
    let id = route?.params?.params?.id;
    const [provider, setProvider] = useState();
 
@@ -49,6 +51,17 @@ export default function ProviderProfile({ navigation, route }) {
    useEffect(() => {
       getProvider(id);
    }, [id]);
+
+   const addItemToCart = (itemToAdd) => {
+      const itemToBeSaved = {
+         name: itemToAdd.name,
+         id: itemToAdd.id,
+         quantity: 1,
+         price: itemToAdd.price,
+      };
+      dispatch(defineProviderID(id));
+      dispatch(addToCart(itemToBeSaved));
+   };
 
    return (
       <SafeAreaView style={{ backgroundColor: "white" }}>
@@ -121,20 +134,12 @@ export default function ProviderProfile({ navigation, route }) {
                                        <Text>{item.summary}</Text>
                                        {item.availability ? (
                                           <View style={{ flexDirection: "row" }}>
-                                             {/* <Text>Available</Text>
-                                             <Collapse>
-                                                <CollapseHeader style={{ marginLeft: "70%" }}>
-                                                   <Icon name="plus" size={20} color="#007cff" />
-                                                </CollapseHeader>
-                                                <CollapseBody>
-                                                   <Text>{item.name}</Text>
-                                                </CollapseBody>
-                                             </Collapse> */}
-                                             <OptionsModal
-                                                item={item}
-                                                key={item.id}
-                                                providerId={id}
-                                             />
+                                             <Text>Available</Text>
+                                             <TouchableOpacity
+                                                onPress={() => addItemToCart(item)}
+                                                style={{ marginLeft: "10%" }}>
+                                                <Icon name="plus" size={20} color="#007cff" />
+                                             </TouchableOpacity>
                                           </View>
                                        ) : (
                                           <Text>Not Available</Text>
