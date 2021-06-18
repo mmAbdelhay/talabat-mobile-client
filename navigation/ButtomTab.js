@@ -5,6 +5,7 @@ import HomeStackScreen from "../views/Home/HomeStackScreen";
 import SignInStackScreen from "../views/Login/SignInStackScreen";
 import OrderScreen from "../views/Order/OrderScreen";
 import OrderNowButton from "./OrderNowButton";
+import CartStackScreen from "../views/Cart/CartStackScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -78,8 +79,8 @@ export default function ButtomTab() {
         }}
       />
       <Tab.Screen
-        name="Login"
-        component={SignInStackScreen}
+        name="Cart"
+        component={CartStackScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <View
@@ -91,10 +92,10 @@ export default function ButtomTab() {
               }}
             >
               <Image
-                source={require("../assets/icons/login.png")}
+                source={require("../assets/imgs/shopping-basket.png")}
                 style={{
-                  width: 40,
-                  height: 30,
+                  width: 25,
+                  height: 25,
                   tintColor: focused ? "#3491bc" : "#777777",
                 }}
               />
@@ -104,7 +105,7 @@ export default function ButtomTab() {
                   fontSize: focused ? 15 : 12,
                 }}
               >
-                Login
+                Cart
               </Text>
             </View>
           ),

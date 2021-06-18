@@ -49,6 +49,7 @@ export default function Header(props) {
             paddingRight: "5%",
             justifyContent: "center",
           }}
+          onPress={() => navigation.navigate("Cart")}
         >
           <Image
             source={require("../../assets/imgs/shopping-basket.png")}
