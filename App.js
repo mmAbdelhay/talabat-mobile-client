@@ -11,6 +11,9 @@ import { axiosGet } from "./services/AxiosRequests";
 import ContactUsStackScreen from "./views/ContactUs/ContactUsStackScreen";
 import AccountStackScreen from "./views/Acoount/AccountStackScreen";
 import ProviderProfile from "./views/ProviderProfile/ProviderProfile";
+import AllOrders from "./views/Orders/allOrders";
+import OrderStatus from "./views/Orders/orderStatus";
+import ReviewProvider from "./views/Orders/ReviewProvider";
 
 const Drawer = createDrawerNavigator();
 
@@ -41,6 +44,9 @@ export default function App({ route, navigation }) {
           )}
         >
           <Drawer.Screen name="Home" component={ButtomTab} />
+          <Drawer.Screen name="AllOrders" component={AllOrders} />
+          <Drawer.Screen name="OrderStatus" component={OrderStatus} />
+          <Drawer.Screen name="ReviewProvider" component={ReviewProvider} />
           <Drawer.Screen name="ContactUs" component={ContactUsStackScreen} />
           <Drawer.Screen name="Account" component={AccountStackScreen} />
           <Drawer.Screen name="ProviderProfile" component={ProviderProfile} />
