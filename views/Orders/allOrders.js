@@ -21,7 +21,7 @@ export default class AllOrders extends React.Component {
         const response = await axiosGet("/api/v1/client/info/allorders") ;
         this.setState({
             orders:response,
-        },)
+        })
       }
     
     render(){

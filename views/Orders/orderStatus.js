@@ -24,17 +24,17 @@ export default class OrderStatus extends React.Component {
             this.setState({orderID:this.props.route.params.order_ID},async ()=>{console.log("this is after setting orderid in unsub",this.state.orderID);
             let uri=`/api/v1/client/order/status/${this.state.orderID}`;
             const response =await axiosGet(uri);
-            let current=states.indexOf(response.orderStatus.order_status)
+            let current=states.indexOf(response.orderStatus.order_status);
             this.setState({currentState:current,currentGif:response.orderStatus.order_status},()=>{console.log("after setting state",this.state.currentState);})
         });
             // console.log(this.state.orderID);
             
-          })
+        })
     }
 
     componentWillUnmount () {
         this.unsubscribe()
-      }
+    }
 
     
 
@@ -44,8 +44,7 @@ export default class OrderStatus extends React.Component {
         const response =await axiosGet(uri)
         let current=states.indexOf(response.orderStatus.order_status)
         this.setState({currentState:current,currentGif:response.orderStatus.order_status})
-        // console.log(this.props.match.params.id);
-        }
+    }
     
     refresh=()=>{
         this.getStatus();

@@ -11,7 +11,7 @@ import { axiosGet } from "./services/AxiosRequests";
 import ContactUsStackScreen from "./views/ContactUs/ContactUsStackScreen";
 import AccountStackScreen from "./views/Acoount/AccountStackScreen";
 import ProviderProfile from "./views/ProviderProfile/ProviderProfile";
-import AllOrders from "./views/Orders/allOrders";
+import OrderStackScreen from "./views/Orders/OrderStackScreen";
 import OrderStatus from "./views/Orders/orderStatus";
 import ReviewProvider from "./views/Orders/ReviewProvider";
 
@@ -44,7 +44,7 @@ export default function App({ route, navigation }) {
           )}
         >
           <Drawer.Screen name="Home" component={ButtomTab} />
-          <Drawer.Screen name="AllOrders" component={AllOrders} />
+          <Drawer.Screen name="AllOrders" component={OrderStackScreen} />
           <Drawer.Screen name="OrderStatus" component={OrderStatus} />
           <Drawer.Screen name="ReviewProvider" component={ReviewProvider} />
           <Drawer.Screen name="ContactUs" component={ContactUsStackScreen} />
