@@ -15,6 +15,8 @@ import axios from "axios";
 import { ServerIP } from "../../assets/config";
 import { Card } from "react-native-elements";
 import { SearchBar } from "react-native-elements";
+import { schedulePushNotification } from "../../services/notificationService";
+import { axiosGet } from "../../services/AxiosRequests";
 
 const HomeScreen = ({ navigation }) => {
   const [location, setLocation] = useState(null);
@@ -23,6 +25,7 @@ const HomeScreen = ({ navigation }) => {
   const [providers, setProviders] = useState([]);
   const [providerSearched, setProviderSearched] = useState();
   const [search, setSearch] = useState("");
+  const [coupon, setCoupon] = useState("");
 
   const getNearProviders = async () => {
     let payload = {
@@ -49,7 +52,25 @@ const HomeScreen = ({ navigation }) => {
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location);
     })();
+
+    (async () => {
+      let lastCoupon = await axiosGet("/api/v1/client/coupon/last");
+      console.log(lastCoupon.coupon[0]);
+      if (lastCoupon.coupon?.length > 0) setCoupon(lastCoupon?.coupon[0]);
+    })();
   }, []);
+
+  useEffect(() => {
+    if (coupon) {
+      schedulePushNotification({
+        content: {
+          title: coupon?.coupon_name,
+          body: `Here is the new coupon you can get now a ${coupon?.discount_percentage}% on you orders, just order now`,
+        },
+        trigger: { seconds: 2 },
+      });
+    }
+  }, [coupon]);
 
   useEffect(() => {
     if (location) {
