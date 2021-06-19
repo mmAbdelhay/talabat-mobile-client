@@ -28,6 +28,8 @@ const HomeScreen = ({ navigation }) => {
   const [coupon, setCoupon] = useState("");
 
   const getNearProviders = async () => {
+    console.log(location.coords.latitude)
+    console.log(location.coords.longitude)
     let payload = {
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,

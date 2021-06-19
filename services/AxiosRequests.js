@@ -27,6 +27,36 @@ export const login = async (payload) => {
   }
 };
 
+
+export const updateClientData = async (payload) => {
+  // alert('update')
+  alert(await getToken())
+  try {
+    const response = await axios.post(
+      `${ServerIP}/api/v1/client/info/edit`,payload,
+      {
+        
+        headers: {
+          Authorization: "Token " + (await getToken()),
+        },
+        
+      }
+      
+      
+    );
+    if (response.status == 200) {
+      // storeData("token", response.data.token);
+      // storeData("loginPayload", JSON.stringify(payload));
+      return true;
+    } else {
+      return false;
+    }
+  } catch (err) {
+    console.error(`axios request Update User Data : ${err}`);
+    return false;
+  }
+};
+
 export const signUp = async (payload) => {
   try {
     const response = await axios.post(
