@@ -71,10 +71,19 @@ export default function DrawerContent(props) {
             <DrawerItem
               icon={({ color, size }) => (
                 <Icon name="account-outline" color={color} size={size} />
-              )}
+                )}
               label="Edit account"
               onPress={() => {
                 props.navigation.navigate("Account");
+              }}
+            />
+            <DrawerItem
+              icon={({ color, size }) => (
+                <Icon name="food" color={color} size={size} />
+              )}
+              label="Orders"
+              onPress={() => {
+                props.navigation.navigate("AllOrders");
               }}
             />
           </Drawer.Section>
