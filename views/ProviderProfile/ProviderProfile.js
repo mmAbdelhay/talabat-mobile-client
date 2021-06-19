@@ -16,14 +16,11 @@ import { ServerIP } from "../../assets/config";
 import axios from "axios";
 import { Card } from "react-native-elements";
 import Header from "./HeaderSection";
-import {
-  Collapse,
-  CollapseHeader,
-  CollapseBody,
-  AccordionList,
-} from "accordion-collapse-react-native";
+import { useSelector, useDispatch } from "react-redux";
+import { addToCart, defineProviderID } from "../../services/cartSlice";
 
 export default function ProviderProfile({ navigation, route }) {
+  const dispatch = useDispatch();
   let id = route?.params?.params?.id;
   const [provider, setProvider] = useState();
 
@@ -45,6 +42,18 @@ export default function ProviderProfile({ navigation, route }) {
   useEffect(() => {
     getProvider(id);
   }, [id]);
+
+  const addItemToCart = (itemToAdd) => {
+    const itemToBeSaved = {
+      name: itemToAdd.name,
+      id: itemToAdd.id,
+      quantity: 1,
+      price: itemToAdd.price,
+      logo: itemToAdd.logo,
+    };
+    dispatch(defineProviderID(id));
+    dispatch(addToCart(itemToBeSaved));
+  };
 
   return (
     <SafeAreaView style={{ backgroundColor: "white" }}>
@@ -112,20 +121,19 @@ export default function ProviderProfile({ navigation, route }) {
                           style={{ height: 50, width: 50 }}
                         />
                         <View style={{ marginLeft: "3%" }}>
-                          <Text>{item.name}</Text>
-                          <Text>{item.price}</Text>
+                          <Text>
+                            Name: {item.name} Price: {item.price}
+                          </Text>
                           <Text>{item.summary}</Text>
                           {item.availability ? (
                             <View style={{ flexDirection: "row" }}>
                               <Text>Available</Text>
-                              <Collapse>
-                                <CollapseHeader style={{ marginLeft: "70%" }}>
-                                  <Icon name="plus" size={20} color="#007cff" />
-                                </CollapseHeader>
-                                <CollapseBody>
-                                  <Text>{item.name}</Text>
-                                </CollapseBody>
-                              </Collapse>
+                              <TouchableOpacity
+                                onPress={() => addItemToCart(item)}
+                                style={{ marginLeft: "60%" }}
+                              >
+                                <Icon name="plus" size={20} color="#007cff" />
+                              </TouchableOpacity>
                             </View>
                           ) : (
                             <Text>Not Available</Text>
