@@ -59,7 +59,7 @@ export default function ProviderProfile({ navigation, route }) {
     <SafeAreaView style={{ backgroundColor: "white" }}>
       <StatusBar barStyle="dark-content" />
       <Header name={provider?.Provider?.name} />
-      <ScrollView style={{ paddingTop: "5%", paddingBottom: "5%" }}>
+      <ScrollView style={{ paddingTop: "5%", paddingBottom: "5%", borderBottom:"25%" }}>
         <View style={{ justifyContent: "center", alignItems: "center" }}>
           <Text
             style={{
