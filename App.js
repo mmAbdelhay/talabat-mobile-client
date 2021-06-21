@@ -14,6 +14,7 @@ import ProviderProfile from "./views/ProviderProfile/ProviderProfile";
 import OrderStackScreen from "./views/Orders/OrderStackScreen";
 import OrderStatus from "./views/Orders/orderStatus";
 import ReviewProvider from "./views/Orders/ReviewProvider";
+import ClientMap from "./views/map/map";
 
 const Drawer = createDrawerNavigator();
 
@@ -50,6 +51,7 @@ export default function App({ route, navigation }) {
           <Drawer.Screen name="ContactUs" component={ContactUsStackScreen} />
           <Drawer.Screen name="Account" component={AccountStackScreen} />
           <Drawer.Screen name="ProviderProfile" component={ProviderProfile} />
+          <Drawer.Screen name="ClientMap" component={ClientMap} />
         </Drawer.Navigator>
       </NavigationContainer>
     );

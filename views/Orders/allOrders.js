@@ -29,7 +29,7 @@ export default class AllOrders extends React.Component {
         <ScrollView style={{ top: "5%", marginBottom: "30%" }}>
             {this.state.orders.length==0 ? <Text>no orders</Text>:this.state.orders.map((order)=>{
                 return( <TouchableOpacity key={order.id} onPress={() =>
-                                                                    order.order_status=="Delivered"?this.props.navigation.navigate('ReviewProvider', { provider_ID: order.provider_id,provider_name:order.Provider.name }):this.props.navigation.navigate('OrderStatus', { order_ID: order.id })
+                                                                    order.order_status=="Delivered"?this.props.navigation.navigate('ReviewProvider', { provider_ID: order.provider_id,provider_name:order.Provider.name }):(order.order_status=="Delivering"?this.props.navigation.navigate("ClientMap",{order_ID:order.id}):this.props.navigation.navigate('OrderStatus', { order_ID: order.id }))
                                                                     
                                                                 }>
                             <Card>
