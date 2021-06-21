@@ -13,12 +13,17 @@ import { removeFomCart } from "../../services/cartSlice";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { ServerIP } from "../../assets/config";
 
-export default function Cart() {
+
+export default function Cart({navigation}) {
   const cartItems = useSelector((state) => state.cart.cart);
   const dispatch = useDispatch();
 
   const checkOut = () => {
-    console.log(`checkout `);
+    navigation.navigate("CheckOut", {
+      params: {
+        cart: cartItems,
+      },
+    })
   };
 
   return (
