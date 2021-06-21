@@ -19,7 +19,8 @@ import { axiosPost } from '../../services/AxiosRequests';
 import * as Location from "expo-location";
 // import StripePayment from "./stripe";
 
-export default function Cart() {
+
+export default function Cart({navigation}) {
   const cartItems = useSelector((state) => state.cart.cart);
   const providerID = useSelector((state) => state.cart.providerID);
   const dispatch = useDispatch();
@@ -27,6 +28,7 @@ export default function Cart() {
   const [location, setLocation] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
 
+<<<<<<< HEAD
 
   useEffect(() => {
     (async () => {
@@ -70,6 +72,14 @@ export default function Cart() {
       console.log("error");
     }
     console.log(`checkout `);
+=======
+  const checkOut = () => {
+    navigation.navigate("CheckOut", {
+      params: {
+        cart: cartItems,
+      },
+    })
+>>>>>>> 8ba97f7102266c59b4358cd8466cdc15238c2992
   };
 
   const checkOutVisa = async () => {
