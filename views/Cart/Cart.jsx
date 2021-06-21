@@ -28,7 +28,6 @@ export default function Cart({navigation}) {
   const [location, setLocation] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
 
-<<<<<<< HEAD
 
   useEffect(() => {
     (async () => {
@@ -72,14 +71,6 @@ export default function Cart({navigation}) {
       console.log("error");
     }
     console.log(`checkout `);
-=======
-  const checkOut = () => {
-    navigation.navigate("CheckOut", {
-      params: {
-        cart: cartItems,
-      },
-    })
->>>>>>> 8ba97f7102266c59b4358cd8466cdc15238c2992
   };
 
   const checkOutVisa = async () => {
