@@ -9,6 +9,7 @@ export default class OrderStatus extends React.Component {
 
     constructor(props){
         super(props);
+
         this.state={
             currentState:0,
             currentGif:"",
