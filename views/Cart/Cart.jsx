@@ -66,32 +66,11 @@ export default function Cart({navigation}) {
     let response=await axiosPost(`/API/V1/orders/CreateOrder/create`,payload)
     if(response){
       console.log(response);
-      props.navigation.navigate("Home")
+      navigation.navigate("Home")
     }else{
       console.log("error");
     }
     console.log(`checkout `);
-  };
-
-  const checkOutVisa = async () => {
-    // let payload={
-    //     cart:cartItems,
-    //     provider_id : providerID,
-    //     total_price: totals,
-    //     lat: location.coords.latitude,
-    //     lng: location.coords.longitude, 
-    //     paymentMethod: "cash",
-    //     notes: "",
-    //     coupon: 0
-    // };
-    // let response=await axiosPost(`/API/V1/orders/CreateOrder/create`,payload)
-    // if(response){
-    //   console.log(response);
-    //   props.navigation.navigate("Home")
-    // }else{
-    //   console.log("error");
-    // }
-    // console.log(`checkout `);
   };
 
   return (
@@ -157,6 +136,29 @@ export default function Cart({navigation}) {
               ]}
             >
               Pay cash
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.button}>
+          <TouchableOpacity style={styles.checkOut} onPress={()=>{navigation.navigate("StripePayment",{total_price:totals,payload:{
+                                                                                                                                    cart:cartItems,
+                                                                                                                                    provider_id : providerID,
+                                                                                                                                    total_price: totals,
+                                                                                                                                    lat: location.coords.latitude,
+                                                                                                                                    lng: location.coords.longitude, 
+                                                                                                                                    paymentMethod: "cash",
+                                                                                                                                    notes: "",
+                                                                                                                                    coupon: 0
+                                                                                                                                  }})}}>
+            <Text
+              style={[
+                styles.textCheckOut,
+                {
+                  color: "#fff",
+                },
+              ]}
+            >
+              Pay VISA
             </Text>
           </TouchableOpacity>
         </View>
