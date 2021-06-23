@@ -9,15 +9,17 @@ import {
   Image,
   Modal,
   Alert,
-  Pressable
+  Pressable,
+  TextInput
 } from "react-native";
 import { Card } from "react-native-elements";
 import { removeFomCart } from "../../services/cartSlice";
+import { clearCart } from "../../services/cartSlice";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { ServerIP } from "../../assets/config";
 import { axiosPost } from '../../services/AxiosRequests';
 import * as Location from "expo-location";
-// import StripePayment from "./stripe";
+import axios from "axios";
 
 
 export default function Cart({navigation}) {
@@ -27,6 +29,10 @@ export default function Cart({navigation}) {
   const [totals, setTotalPrice] = useState(0);
   const [location, setLocation] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible1, setModalVisible1] = useState(false);
+  const [text, onChangeText] = useState("");
+  const [Note, onChangeNote] = useState("");
+  const [couponValue, setCouponValue] = useState(0);
 
 
   useEffect(() => {
@@ -60,17 +66,37 @@ export default function Cart({navigation}) {
         lat: location.coords.latitude,
         lng: location.coords.longitude, 
         paymentMethod: "cash",
-        notes: "",
-        coupon: 0
+        notes: Note,
+        coupon: couponValue
     };
     let response=await axiosPost(`/API/V1/orders/CreateOrder/create`,payload)
     if(response){
       console.log(response);
+      dispatch(clearCart());
+      console.log("these are cart items nowwwwwwwwwwwwwwwwwwwww",cartItems);
       navigation.navigate("Home")
     }else{
       console.log("error");
     }
     console.log(`checkout `);
+  };
+
+  const addCoupon = () => {
+    axios.post(`${ServerIP}/API/V1/orders/CreateOrder/checkCoupon`,{
+      coupon: text
+    },).then((res) => {
+      console.log("this is coupon",res.data.checkCoupon.discount_percentage);
+      console.log("this is coupon",typeof res.data.checkCoupon.discount_percentage);
+      if(res.data.checkCoupon.discount_percentage){
+      setCouponValue(res.data.checkCoupon.discount_percentage);
+      let new_total_price = totals-res.data.checkCoupon.discount_percentage;
+      setTotalPrice(new_total_price);
+      onChangeText("");
+      }
+   }).catch((err) => {
+     alert("code not valid"+err);
+   })
+   setModalVisible(!modalVisible)
   };
 
   return (
@@ -125,6 +151,91 @@ export default function Cart({navigation}) {
       )}
       {cartItems.length > 0 && (
         <View>
+        <View style={styles.centeredView}><Text>Total Price : {totals}</Text></View>
+        <View style={styles.centeredView}>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalVisible1}
+              onRequestClose={() => {
+                Alert.alert("Modal has been closed.");
+                setModalVisible1(!modalVisible1);
+              }}
+            >
+              <View style={styles.centeredView}>
+                
+                <View style={styles.modalView}>
+                  <Text style={styles.modalText}>ADD Note</Text>
+                  <TextInput
+                    style={styles.input}
+                    onChangeText={onChangeNote}
+                    value={Note}
+                    placeholder="Write Note"
+                  />
+                  <Pressable
+                    style={[styles.buttonModal, styles.buttonClose]}
+                    onPress={()=>{setModalVisible1(!modalVisible1)}}
+                  >
+                    <Text style={styles.textStyle}>ADD</Text>
+                  </Pressable>
+                  <Pressable
+                    style={[styles.buttonModal, styles.buttonClose]}
+                    onPress={()=>{setModalVisible1(!modalVisible1)}}
+                  >
+                    <Text style={styles.textStyle}>Cancel</Text>
+                  </Pressable>
+                </View>
+              </View>
+            </Modal>
+            <Pressable
+              style={[styles.buttonModal, styles.buttonOpen]}
+              onPress={() => setModalVisible1(true)}
+            >
+              <Text style={styles.textStyle}>Add Note</Text>
+            </Pressable>
+          </View>
+        <View style={styles.centeredView}>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalVisible}
+              onRequestClose={() => {
+                Alert.alert("Modal has been closed.");
+                setModalVisible(!modalVisible);
+              }}
+            >
+              <View style={styles.centeredView}>
+                
+                <View style={styles.modalView}>
+                  <Text style={styles.modalText}>ADD Coupon</Text>
+                  <TextInput
+                    style={styles.input}
+                    onChangeText={onChangeText}
+                    value={text}
+                    placeholder="Write coupon code"
+                  />
+                  <Pressable
+                    style={[styles.buttonModal, styles.buttonClose]}
+                    onPress={addCoupon}
+                  >
+                    <Text style={styles.textStyle}>ADD</Text>
+                  </Pressable>
+                  <Pressable
+                    style={[styles.buttonModal, styles.buttonClose]}
+                    onPress={()=>{setModalVisible(!modalVisible)}}
+                  >
+                    <Text style={styles.textStyle}>Cancel</Text>
+                  </Pressable>
+                </View>
+              </View>
+            </Modal>
+            <Pressable
+              style={[styles.buttonModal, styles.buttonOpen]}
+              onPress={() => setModalVisible(true)}
+            >
+              <Text style={styles.textStyle}>Add Coupon</Text>
+            </Pressable>
+          </View>
         <View style={styles.button}>
           <TouchableOpacity style={styles.checkOut} onPress={checkOut}>
             <Text
@@ -135,7 +246,7 @@ export default function Cart({navigation}) {
                 },
               ]}
             >
-              Pay cash
+              Pay Cash
             </Text>
           </TouchableOpacity>
         </View>
@@ -146,9 +257,9 @@ export default function Cart({navigation}) {
                                                                                                                                     total_price: totals,
                                                                                                                                     lat: location.coords.latitude,
                                                                                                                                     lng: location.coords.longitude, 
-                                                                                                                                    paymentMethod: "cash",
-                                                                                                                                    notes: "",
-                                                                                                                                    coupon: 0
+                                                                                                                                    paymentMethod: "visa",
+                                                                                                                                    notes: Note,
+                                                                                                                                    coupon: couponValue
                                                                                                                                   }})}}>
             <Text
               style={[
@@ -162,38 +273,6 @@ export default function Cart({navigation}) {
             </Text>
           </TouchableOpacity>
         </View>
-        {/* <View>
-        <StripePayment/>
-        </View> */}
-        {/* <View style={styles.centeredView}>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
-            setModalVisible(!modalVisible);
-          }}
-        >
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <Text style={styles.modalText}>Hello World!</Text>
-              <Pressable
-                style={[styles.buttonModal, styles.buttonClose]}
-                onPress={() => setModalVisible(!modalVisible)}
-              >
-                <Text style={styles.textStyle}>Hide Modal</Text>
-              </Pressable>
-            </View>
-          </View>
-        </Modal>
-        <Pressable
-          style={[styles.buttonModal, styles.buttonOpen]}
-          onPress={() => setModalVisible(true)}
-        >
-          <Text style={styles.textStyle}>Pay VISA</Text>
-        </Pressable>
-      </View> */}
         </View>
         
       )}
@@ -206,7 +285,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignSelf: "center",
     width: "70%",
-    marginTop: 50,
+    marginTop: 10,
     borderRadius: 25,
     height: 50,
     backgroundColor: "#007cff",
@@ -227,7 +306,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22
+    marginTop: 10
   },
   modalView: {
     margin: 20,
@@ -245,23 +324,32 @@ const styles = StyleSheet.create({
     elevation: 5
   },
   buttonModal: {
-    borderRadius: 20,
+    borderRadius: 25,
     padding: 10,
-    elevation: 2
+    elevation: 2,
+    width:"50%",
+    height:50,
   },
   buttonOpen: {
-    backgroundColor: "#F194FF",
+    backgroundColor: "#007cff",
   },
   buttonClose: {
     backgroundColor: "#2196F3",
+    width:"70%"
   },
   textStyle: {
     color: "white",
     fontWeight: "bold",
-    textAlign: "center"
+    textAlign: "center",
+    fontSize: 18,
   },
   modalText: {
     marginBottom: 15,
     textAlign: "center"
+  },
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
   }
 });

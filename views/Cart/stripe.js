@@ -1,49 +1,53 @@
+import React, { useEffect,useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import ExpoStripePurchase from 'expo-stripe-webview';
-import React from 'react';
 import { axiosPost } from '../../services/AxiosRequests';
+import { clearCart } from "../../services/cartSlice";
+import { ServerIP } from "../../assets/config";
 
-class StripePayment extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { 
-            total_price:this.props.route.params.total_price,
-            payload:this.props.route.params.payload
-         }
-    }
+
+
+export default function StripePayment(props) {
+
+    const cartItems = useSelector((state) => state.cart.cart);
+    const dispatch = useDispatch();
+    const [total_price, setTotalPrice] = useState(props.route.params.total_price);
+    const [payload, setPayload] = useState(props.route.params.payload);
+  
     onClose = () => {
-        this.props.navigation.navigate("Home");
+        props.navigation.navigate("Home");
     }
     
     onPaymentSuccess = async (token) => {
-        console.log(this.state.payload);
-        let response=await axiosPost(`/API/V1/orders/CreateOrder/create`,this.state.payload)
+        console.log(payload);
+        let response=await axiosPost(`/API/V1/orders/CreateOrder/create`,payload)
         if(response){
             console.log(response);
-            this.props.navigation.navigate("Home")
+            dispatch(clearCart());
+            props.navigation.navigate("Home")
         }else{
             console.log("error");
         }
         console.log(`checkout `);
 
     }
-    
-    render () {
-        return (
-            <ExpoStripePurchase
+
+
+
+  return (
+    <ExpoStripePurchase
                 publicKey="pk_test_51IylsfFbv4bq3gHEGu377QH9EZEm3dJzg1KEtB1wxb1ifEECvujcbHtxMOvc74fO9lNAAIFOCqF1ySZXEfmAc09J00UtkrLyEI"
-                amount={this.state.total_price}
+                amount={total_price}
                 imageUrl="www.clever-image-url.com"
                 storeName="Clever Store Name"
                 description="Clever product description."
                 currency="USD"
                 allowRememberMe={true}
                 prepopulatedEmail="clever_email@clever.com"
-                onClose={this.onClose}
-                onPaymentSuccess={(token) => this.onPaymentSuccess(token)}
+                onClose={onClose}
+                onPaymentSuccess={(token) => onPaymentSuccess(token)}
                 style={{width: 1000, alignSelf: 'center'}}
             />
-        )
-    }
+          
+  );
 }
- 
-export default StripePayment;
