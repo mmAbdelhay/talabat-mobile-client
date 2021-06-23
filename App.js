@@ -16,6 +16,7 @@ import OrderStatus from "./views/Orders/orderStatus";
 import ReviewProvider from "./views/Orders/ReviewProvider";
 import ClientMap from "./views/map/map";
 import StripePayment from "./views/Cart/stripe";
+import CheckOut from "./views/checkOut/checkOut"
 
 const Drawer = createDrawerNavigator();
 
@@ -54,6 +55,8 @@ export default function App({ route, navigation }) {
           <Drawer.Screen name="ProviderProfile" component={ProviderProfile} />
           <Drawer.Screen name="ClientMap" component={ClientMap} />
           <Drawer.Screen name="StripePayment" component={StripePayment} />
+          <Drawer.Screen name="CheckOut" component={CheckOut} />
+
         </Drawer.Navigator>
       </NavigationContainer>
     );
