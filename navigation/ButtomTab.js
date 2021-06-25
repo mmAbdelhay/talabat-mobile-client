@@ -2,8 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeStackScreen from "../views/Home/HomeStackScreen";
-import SignInStackScreen from "../views/Login/SignInStackScreen";
-import OrderScreen from "../views/Order/OrderScreen";
+import AllOrderStackScreen from "../views/Orders/OrderStackScreen";
 import OrderNowButton from "./OrderNowButton";
 import CartStackScreen from "../views/Cart/CartStackScreen";
 
@@ -62,7 +61,7 @@ export default function ButtomTab() {
       />
       <Tab.Screen
         name="Order"
-        component={OrderScreen}
+        component={AllOrderStackScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <Image
