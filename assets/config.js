@@ -1,4 +1,4 @@
 module.exports = {
-  ServerIP: `http://192.168.1.7:5000`,
+  ServerIP: `http://3.19.211.111`,
   stackBackgroundColor: "#007cff",
 };
